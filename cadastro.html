@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    <form id="formCadastro">
+        <fieldset id="cad">
+            <legend>CADASTRE-SE</legend>
+            <p>
+                <label>Nome</label>
+                <input type="text" id="cadastroNome" required>
+            </p>
+            <p>
+                <label>Email</label>
+                <input type="email" id="cadastroEmail" required>
+            </p>
+            <p>
+                <label>Senha</label>
+                <input type="password" id="cadastroSenha" required>
+            </p>
+            <center>
+                <button type="submit">CADASTRE-SE</button>
+                <input type="reset" value="Limpar">
+            </center>
+            <div class="links-navegacao">
+                <p>Já possui conta? <a href="index.html">Voltar ao Login</a></p>
+            </div>
+        </fieldset>
+    </form>
+   <!-- CERTO (pega o arquivo cadastro.js que está ao lado) -->
+<script type="module" src="cadastro.js"></script>
+</body>
+</html>

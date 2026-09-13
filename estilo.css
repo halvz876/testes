@@ -1,0 +1,273 @@
+:root {
+  --bg-color: #1a1e29;
+  --card-bg: #252a38;
+  --input-bg: #2e3546;
+  --text-main: #f0f2f5;
+  --text-muted: #a0a6b5;
+  --accent-color: #4f46e5;
+  --accent-hover: #4338ca;
+  --danger-color: #ef4444;
+  --border-radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR / HEADER */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: rgba(26, 30, 41, 0.95);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: var(--accent-color);
+}
+
+/* DROPDOWNS E MENUS */
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu, .dropdown-content {
+  position: absolute;
+  top: 50px;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  width: 240px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  z-index: 200;
+}
+
+#profile-menu { left: 20px; }
+#dropdown-menu { right: 0; top: 40px; width: 180px; padding: 8px; }
+
+.dropdown-content a {
+  color: var(--text-main);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.profile-avatar { font-size: 2.5rem; }
+.status-online { font-size: 0.8rem; color: #10b981; }
+
+hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 12px 0; }
+
+.menu-list { list-style: none; }
+.menu-list li { margin-bottom: 8px; }
+
+.menu-list button {
+  color: var(--text-main);
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.danger-zone button { color: #f87171; }
+.danger-zone button:hover { background-color: rgba(239, 68, 68, 0.15); }
+
+/* VIEWS & ESTRUTURA GERAL */
+.view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px;
+}
+
+.hidden { display: none !important; }
+
+/* TELA DE LOGIN */
+.auth-card {
+  background-color: var(--card-bg);
+  padding: 32px;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.auth-card h2 { margin-bottom: 24px; text-align: center; }
+
+.input-group { margin-bottom: 16px; text-align: left; }
+.input-group label { display: block; margin-bottom: 6px; color: var(--text-muted); font-size: 0.9rem; }
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--input-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input { padding-right: 40px; }
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.btn-full { width: 100%; margin-top: 10px; }
+
+/* CENTRALIZAÇÃO DA BUSCA */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 24px auto;
+}
+
+.search-container label { display: block; margin-bottom: 12px; color: var(--text-muted); text-align: center; }
+
+.search-box, .search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--input-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  width: 100%;
+  gap: 12px;
+}
+
+.search-box input, .search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.search-bar button {
+  background-color: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* GRID E CARDS DE JOGOS */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.game-card {
+  background-color: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.game-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.game-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #1e2330;
+}
+
+/* BUSCA DE PERFIL */
+.back-btn { align-self: flex-start; background: none; border: none; color: var(--text-muted); font-size: 1rem; cursor: pointer; margin-bottom: 20px; }
+.search-result { margin-top: 20px; width: 100%; }
+.result-item { display: flex; align-items: center; gap: 12px; background-color: var(--card-bg); padding: 16px; border-radius: var(--border-radius); cursor: pointer; }
+
+.profile-card { background-color: var(--card-bg); padding: 32px; border-radius: var(--border-radius); text-align: center; width: 100%; max-width: 360px; }
+.profile-avatar-large { font-size: 4rem; margin-bottom: 12px; }
+.action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+/* BOTÕES GERAIS */
+.btn-primary, .btn-secondary {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-primary { background-color: var(--accent-color); color: #fff; }
+.btn-primary:hover { background-color: var(--accent-hover); }
+.btn-secondary { background-color: var(--input-bg); color: var(--text-main); }

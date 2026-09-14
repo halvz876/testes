@@ -1,20 +1,20 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// Substitua com as chaves reais do seu Firebase Console
 const firebaseConfig = {
-    apiKey: "AIzaSyAgTyyPHmDKoeiASGh986VboKoQ9EQNn38",
-    authDomain: "bancodedados-6a371.firebaseapp.com",
-    projectId: "bancodedados-6a371",
-    storageBucket: "bancodedados-6a371.firebasestorage.app",
-    messagingSenderId: "982595529125",
-    appId: "1:982595529125:web:cb819182abea81a94da04c",
-    measurementId: "G-0GWC6KWSGW"
+  apiKey: "SUA_API_KEY_AQUI",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "ID_DO_SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+  appId: "SEU_APP_ID"
 };
 
-// Inicialização
+// Inicializa o app Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exportação das instâncias (apenas UMA declaração para cada)
+// Exporta as conexões para o cadastro.js e painel.js usarem
 export const auth = getAuth(app);
 export const db = getFirestore(app);

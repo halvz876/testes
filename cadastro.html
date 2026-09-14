@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="estilo.css?v=4">
+</head>
+<body>
+    <div class="container">
+        <h2>CRIAR CONTA</h2>
+
+        <form id="form-cadastro">
+            <div class="campo">
+                <label for="cad-nome">Nome:</label>
+                <input type="text" id="cad-nome" placeholder="Digite seu nome" required>
+            </div>
+
+            <div class="campo">
+                <label for="cad-email">E-mail:</label>
+                <input type="email" id="cad-email" placeholder="Digite seu e-mail" required>
+            </div>
+
+            <div class="campo">
+                <label for="cad-senha">Senha:</label>
+                <div class="campo-senha">
+                    <input type="password" id="cad-senha" placeholder="Crie uma senha" required>
+                    <span id="toggleSenha" class="toggle-senha">👁️</span>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="cad-nivel">Nível de Acesso:</label>
+                <select id="cad-nivel" style="width: 100%; padding: 10px; margin-top: 5px; background-color: #2b2d42; color: #fff; border: 1px solid #4a4e69; border-radius: 4px;">
+                    <option value="usuario">Usuário Comum</option>
+                    <option value="adm1">ADM Nível 1 (Sem permissão de exclusão)</option>
+                    <option value="adm2">ADM Nível 2 (Permissão total)</option>
+                </select>
+            </div>
+
+            <button type="submit" id="btnCadastrar" style="margin-top: 15px;">CADASTRAR</button>
+        </form>
+
+        <div class="links">
+            <p>Já tem uma conta? <a href="index.html">Fazer Login</a></p>
+        </div>
+    </div>
+
+    <script type="module" src="cadastro.js?v=3"></script>
+</body>
+</html>

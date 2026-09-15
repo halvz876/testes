@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>PÁGINA DE LOGIN E GERENCIAMENTO SEGURO</title>
+    <!-- Mantém o seu CSS externo original -->
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+    <!-- NAVBAR / MENU SUPERIOR -->
+    <header class="navbar">
+        <div class="profile-container">
+            <button class="icon-btn" id="btnPerfil">👤</button>
+            <div class="dropdown-menu hidden" id="menuPerfil">
+                <div class="user-info">
+                    <span class="profile-avatar">👤</span>
+                    <div>
+                        <strong id="perfilNome">Carregando...</strong>
+                        <span class="status-online">● Online</span>
+                    </div>
+                </div>
+                <hr class="dropdown-divider">
+                <ul class="menu-list">
+                    <li><a href="#" id="linkVerPainel">📊 Painel de Usuários</a></li>
+                    <li class="danger-item"><a href="#" id="linkDeletarConta">🗑️ Excluir Conta</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="menu-container">
+            <button class="icon-btn" id="btnMenu">⚙️</button>
+            <div class="dropdown-content hidden" id="menuOpcoes">
+                <div class="dropdown-header">Opções</div>
+                <a href="#" id="linkSair">Sair da Conta</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL (CENTRALIZADO PELO CSS) -->
+    <main class="view">
+
+        <!-- 1. TELA DE LOGIN -->
+        <section id="telaLogin" class="auth-card">
+            <h2>LOGIN</h2>
+            <form id="formLogin">
+                <div class="input-group">
+                    <label>Login (Email):</label>
+                    <input type="email" id="loginEmail" required autocomplete="email" placeholder="seu@email.com">
+                </div>
+                <div class="input-group">
+                    <label>SENHA:</label>
+                    <input type="password" id="loginSenha" required autocomplete="current-password" placeholder="Sua senha">
+                </div>
+                <div class="auth-actions">
+                    <button type="submit" class="btn-primary">FAZER LOGIN</button>
+                    <button type="button" class="btn-secondary" id="irParaCadastro">Não tem conta? Cadastre-se</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 2. TELA DE CADASTRO -->
+        <section id="telaCadastro" class="auth-card hidden">
+            <h2>CADASTRE-SE</h2>
+            <form id="formCadastro">
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" id="cadastroNome" required placeholder="Seu nome completo">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="cadastroEmail" required placeholder="seu@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Senha (Mínimo de 6 caracteres)</label>
+                    <input type="password" id="cadastroSenha" required minlength="6" placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="auth-actions">
+                    <button type="submit" class="btn-primary">CADASTRAR</button>
+                    <button type="button" class="btn-secondary" id="voltarLogin">Já tenho uma conta</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 3. PAINEL / PLANILHA DE USUÁRIOS -->
+        <section id="telaPainel" class="auth-card hidden" style="max-width: 650px;">
+            <h2>Painel de Usuários</h2>
+            
+            <form id="formBuscaUsuario" style="margin-bottom: 20px;">
+                <div class="input-group">
+                    <label>Pesquisar por E-mail exato:</label>
+                    <input type="email" id="buscaEmail" placeholder="Digite o e-mail para busca">
+                </div>
+                <button type="submit" class="btn-primary" style="background-color: #34a853;">PESQUISAR</button>
+            </form>
+
+            <div class="controles-tabela" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                <button type="button" id="btnOrdenarAlfabetica" class="btn-primary" style="background-color: #f57c00; font-size: 0.85rem; padding: 8px;">A-Z (Nome)</button>
+                <button type="button" id="btnOrdenarData" class="btn-primary" style="background-color: #1a73e8; font-size: 0.85rem; padding: 8px;">Mais Recentes</button>
+                <button type="button" id="btnCarregarTodos" class="btn-primary" style="background-color: #6c757d; font-size: 0.85rem; padding: 8px;">Ver Todos</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="background-color: rgba(255,255,255,0.05);">
+                            <th style="border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; color: #5850ec;">Nome</th>
+                            <th style="border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; color: #5850ec;">E-mail</th>
+                            <th style="border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; color: #5850ec;">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaUsuariosBody">
+                        <tr>
+                            <td colspan="3" style="text-align: center; padding: 12px; color: var(--text-muted);">Clique em "Ver Todos" para carregar.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="auth-actions" style="margin-top: 20px;">
+                <button type="button" class="btn-secondary" id="voltarHomeDoPainel">Voltar</button>
+            </div>
+        </section>
+
+        <!-- 4. EXCLUIR CONTA -->
+        <section id="telaDeletar" class="auth-card hidden">
+            <h2 style="color: var(--danger-color);">EXCLUIR CONTA</h2>
+            <form id="formDeletarContaPropria">
+                <div class="input-group">
+                    <label>Confirme seu E-mail:</label>
+                    <input type="email" id="deletarEmailAuth" required placeholder="seu@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Confirme sua Senha:</label>
+                    <input type="password" id="deletarSenhaAuth" required placeholder="Sua senha">
+                </div>
+                <div class="auth-actions">
+                    <button type="submit" class="btn-primary" style="background-color: var(--danger-color);">APAGAR PERMANENTEMENTE</button>
+                    <button type="button" class="btn-secondary" id="voltarHomeDeletar">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- LÓGICA FIREBASE & CONTROLE DE TELAS -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            deleteUser,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            deleteDoc, 
+            collection, 
+            query, 
+            where, 
+            orderBy,
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAgTyyPHmDKoeiASGh986VboKoQ9EQNn38",
+            authDomain: "bancodedados-6a371.firebaseapp.com",
+            projectId: "bancodedados-6a371",
+            storageBucket: "bancodedados-6a371.firebasestorage.app",
+            messagingSenderId: "982595529125",
+            appId: "1:982595529125:web:cb819182abea81a94da04c",
+            measurementId: "G-0GWC6KWSGW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Controle de Alternância de Telas
+        const telaLogin = document.getElementById("telaLogin");
+        const telaCadastro = document.getElementById("telaCadastro");
+        const telaPainel = document.getElementById("telaPainel");
+        const telaDeletar = document.getElementById("telaDeletar");
+
+        function mudarTela(ativa) {
+            [telaLogin, telaCadastro, telaPainel, telaDeletar].forEach(t => t.classList.add("hidden"));
+            ativa.classList.remove("hidden");
+        }
+
+        document.getElementById("irParaCadastro").addEventListener("click", () => mudarTela(telaCadastro));
+        document.getElementById("voltarLogin").addEventListener("click", () => mudarTela(telaLogin));
+        document.getElementById("linkVerPainel").addEventListener("click", (e) => { e.preventDefault(); mudarTela(telaPainel); fecharMenus(); });
+        document.getElementById("linkDeletarConta").addEventListener("click", (e) => { e.preventDefault(); mudarTela(telaDeletar); fecharMenus(); });
+        document.getElementById("voltarHomeDoPainel").addEventListener("click", () => mudarTela(telaLogin));
+        document.getElementById("voltarHomeDeletar").addEventListener("click", () => mudarTela(telaLogin));
+
+        // Menus Dropdown da Navbar
+        const btnPerfil = document.getElementById("btnPerfil");
+        const menuPerfil = document.getElementById("menuPerfil");
+        const btnMenu = document.getElementById("btnMenu");
+        const menuOpcoes = document.getElementById("menuOpcoes");
+
+        function fecharMenus() {
+            menuPerfil.classList.add("hidden");
+            menuOpcoes.classList.add("hidden");
+        }
+
+        btnPerfil.addEventListener("click", (e) => {
+            e.stopPropagation();
+            menuPerfil.classList.toggle("hidden");
+            menuOpcoes.classList.add("hidden");
+        });
+
+        btnMenu.addEventListener("click", (e) => {
+            e.stopPropagation();
+            menuOpcoes.classList.toggle("hidden");
+            menuPerfil.classList.add("hidden");
+        });
+
+        window.addEventListener("click", () => fecharMenus());
+
+        function sanitizarTexto(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
+        }
+
+        // Observar estado do usuário logado
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    document.getElementById("perfilNome").textContent = docSnap.data().nome || user.email;
+                } else {
+                    document.getElementById("perfilNome").textContent = user.email;
+                }
+            } else {
+                document.getElementById("perfilNome").textContent = "Visitante";
+            }
+        });
+
+        // Cadastro
+        document.getElementById("formCadastro").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nome = sanitizarTexto(document.getElementById("cadastroNome").value.trim());
+            const email = sanitizarTexto(document.getElementById("cadastroEmail").value.trim().toLowerCase());
+            const senha = document.getElementById("cadastroSenha").value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+                const user = userCredential.user;
+
+                await setDoc(doc(db, "usuarios", user.uid), {
+                    nome: nome,
+                    email: email,
+                    criadoEm: new Date().toISOString()
+                });
+
+                alert("Usuário cadastrado com sucesso!");
+                document.getElementById("formCadastro").reset();
+                mudarTela(telaLogin);
+            } catch (error) {
+                alert("Erro ao cadastrar: " + error.message);
+            }
+        });
+
+        // Login com Bloqueio de Tentativas
+        document.getElementById("formLogin").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = sanitizarTexto(document.getElementById("loginEmail").value.trim().toLowerCase());
+            const senha = document.getElementById("loginSenha").value;
+
+            const chaveTentativas = `tentativas_${email}`;
+            const chaveBloqueio = `bloqueio_${email}`;
+
+            const tempoBloqueio = localStorage.getItem(chaveBloqueio);
+            if (tempoBloqueio && new Date().getTime() < parseInt(tempoBloqueio)) {
+                const minutosRestantes = Math.ceil((parseInt(tempoBloqueio) - new Date().getTime()) / 60000);
+                alert(`Acesso bloqueado temporariamente. Tente novamente em ${minutosRestantes} minuto(s).`);
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, senha);
+                localStorage.removeItem(chaveTentativas);
+                localStorage.removeItem(chaveBloqueio);
+                window.location.href = "site.html";
+            } catch (error) {
+                let tentativas = parseInt(localStorage.getItem(chaveTentativas) || "0") + 1;
+                localStorage.setItem(chaveTentativas, tentativas);
+
+                if (tentativas >= 3) {
+                    const tempoFimBloqueio = new Date().getTime() + 300000;
+                    localStorage.setItem(chaveBloqueio, tempoFimBloqueio);
+                    alert("Senha incorreta inserida 3 vezes! Acesso bloqueado por 5 minutos.");
+                } else {
+                    alert(`Credenciais inválidas. (Tentativa ${tentativas} de 3)`);
+                }
+            }
+        });
+
+        // Logout
+        document.getElementById("linkSair").addEventListener("click", async (e) => {
+            e.preventDefault();
+            await signOut(auth);
+            alert("Você saiu da conta.");
+            mudarTela(telaLogin);
+            fecharMenus();
+        });
+
+        // Renderizar Tabela
+        function renderizarTabela(arrayDados) {
+            const tbody = document.getElementById("tabelaUsuariosBody");
+            tbody.innerHTML = "";
+
+            if (arrayDados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; padding: 12px; color: var(--text-muted);">Nenhum registro encontrado.</td></tr>`;
+                return;
+            }
+
+            arrayDados.forEach(dados => {
+                let dataFormatada = "-";
+                if (dados.criadoEm) {
+                    dataFormatada = new Date(dados.criadoEm).toLocaleString('pt-BR');
+                }
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="border: 1px solid rgba(255,255,255,0.1); padding: 8px;">${sanitizarTexto(dados.nome || "")}</td>
+                    <td style="border: 1px solid rgba(255,255,255,0.1); padding: 8px;">${sanitizarTexto(dados.email || "")}</td>
+                    <td style="border: 1px solid rgba(255,255,255,0.1); padding: 8px;">${dataFormatada}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function carregarUsuariosDoBanco(criterioOrdenacao = null, direcao = 'asc') {
+            try {
+                const usuariosRef = collection(db, "usuarios");
+                let q = usuariosRef;
+
+                if (criterioOrdenacao) {
+                    q = query(usuariosRef, orderBy(criterioOrdenacao, direcao));
+                }
+
+                const querySnapshot = await getDocs(q);
+                let listaUsuarios = [];
+                querySnapshot.forEach((docSnap) => {
+                    listaUsuarios.push(docSnap.data());
+                });
+
+                renderizarTabela(listaUsuarios);
+            } catch (error) {
+                alert("Erro ao carregar dados: " + error.message);
+            }
+        }
+
+        document.getElementById("btnCarregarTodos").addEventListener("click", () => carregarUsuariosDoConfig()); // Mantém chamadas corretas
+        document.getElementById("btnCarregarTodos").addEventListener("click", () => carregarUsuariosDoBanco());
+        document.getElementById("btnOrdenarAlfabetica").addEventListener("click", () => carregarUsuariosDoBanco("nome", "asc"));
+        document.getElementById("btnOrdenarData").addEventListener("click", () => carregarUsuariosDoBanco("criadoEm", "desc"));
+
+        document.getElementById("formBuscaUsuario").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const termoBusca = sanitizarTexto(document.getElementById("buscaEmail").value.trim().toLowerCase());
+
+            if (!termoBusca) {
+                carregarUsuariosDoBanco();
+                return;
+            }
+
+            try {
+                const usuariosRef = collection(db, "usuarios");
+                const q = query(usuariosRef, where("email", "==", termoBusca));
+                const querySnapshot = await getDocs(q);
+
+                let resultados = [];
+                querySnapshot.forEach((docSnap) => {
+                    resultados.push(docSnap.data());
+                });
+
+                renderizarTabela(resultados);
+            } catch (error) {
+                alert("Erro ao realizar busca.");
+            }
+        });
+
+        // Deletar Conta Própria
+        document.getElementById("formDeletarContaPropria").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = sanitizarTexto(document.getElementById("deletarEmailEmailAuth") || document.getElementById("deletarEmailAuth").value.trim());
+            const senha = document.getElementById("deletarSenhaAuth").value;
+
+            if (!confirm("Tem certeza absoluta que deseja apagar permanentemente esta conta?")) return;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+                const user = userCredential.user;
+
+                await deleteDoc(doc(db, "usuarios", user.uid));
+                await deleteUser(user);
+
+                alert("Conta excluída permanentemente com sucesso!");
+                document.getElementById("formDeletarContaPropria").reset();
+                mudarTela(telaLogin);
+            } catch (error) {
+                alert("Erro ao excluir a conta: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

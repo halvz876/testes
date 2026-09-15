@@ -13,11 +13,38 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 30px;
+      position: relative;
+    }
+
+    /* BOTÃO VOLTAR */
+    .btn-voltar {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #a0aec0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      background: #24293e;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #2d3748;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-voltar:hover {
+      color: #ffffff;
+      background: #2d3748;
+      border-color: #4a5568;
     }
 
     .container-painel {
       max-width: 950px;
-      margin: 0 auto;
+      margin: 40px auto 0 auto;
       background: #24293e;
       padding: 25px;
       border-radius: 12px;
@@ -46,19 +73,22 @@
       position: relative;
       flex: 1;
       min-width: 250px;
+      display: flex;
+      align-items: center;
     }
 
     .search-box i {
       position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
+      left: 14px;
       color: #a0aec0;
+      font-size: 14px;
+      pointer-events: none;
     }
 
     .search-box input {
       width: 100%;
-      padding: 10px 10px 10px 38px;
+      height: 42px;
+      padding: 0 14px 0 40px;
       border-radius: 8px;
       border: 1px solid #2d3748;
       background-color: #1b1f2e;
@@ -66,6 +96,7 @@
       font-size: 14px;
       outline: none;
       box-sizing: border-box;
+      transition: border-color 0.2s;
     }
 
     .search-box input:focus {
@@ -81,7 +112,8 @@
     }
 
     .sort-box select {
-      padding: 9px 12px;
+      height: 42px;
+      padding: 0 12px;
       border-radius: 8px;
       border: 1px solid #2d3748;
       background-color: #1b1f2e;
@@ -89,6 +121,10 @@
       font-size: 14px;
       cursor: pointer;
       outline: none;
+    }
+
+    .sort-box select:focus {
+      border-color: #805ad5;
     }
 
     .tabela-container {
@@ -153,6 +189,11 @@
 </head>
 <body>
 
+  <!-- BOTÃO VOLTAR -->
+  <a href="./index.html" class="btn-voltar">
+    <i class="fa-solid fa-arrow-left"></i> Voltar ao Menu
+  </a>
+
   <div class="container-painel">
     <h1>planilha de usuarios cadastrados</h1>
 
@@ -166,10 +207,10 @@
       <div class="sort-box">
         <label for="select-ordenar"><i class="fa-solid fa-sort"></i> Ordenar por:</label>
         <select id="select-ordenar">
+          <option value="nome-asc" selected>Nome (A-Z)</option>
+          <option value="nome-desc">Nome (Z-A)</option>
           <option value="data-desc">Mais recentes primeiro</option>
           <option value="data-asc">Mais antigos primeiro</option>
-          <option value="nome-asc">Nome (A-Z)</option>
-          <option value="nome-desc">Nome (Z-A)</option>
         </select>
       </div>
     </div>

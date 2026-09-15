@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planilha de Usuários - ADM</title>
+  <link rel="stylesheet" href="./estilo.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .admin-container {
+      width: 90%;
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(37, 42, 56, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      color: #fff;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .admin-table th, .admin-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .admin-table th {
+      background: rgba(20, 24, 35, 0.6);
+      color: #a0a6b5;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+    .badge-adm {
+      background: #5850ec;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+    }
+    .btn-back {
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <h2><i class="fa-solid fa-table"></i> Planilha de Usuários Cadastrados</h2>
+      <a href="./index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>E-mail</th>
+          <th>Nível de Acesso</th>
+        </tr>
+      </thead>
+      <tbody id="users-table-body">
+        <tr><td colspan="3" style="text-align: center;">Carregando dados...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "./firebase-config.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        alert("Acesso negado. Faça login primeiro.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists() || (docSnap.data().nivel !== "adm1" && docSnap.data().nivel !== "adm2" && !docSnap.data().isAdmin)) {
+          alert("Área restrita apenas para administradores!");
+          window.location.href = "index.html";
+          return;
+        }
+
+        const querySnapshot = await getDocs(collection(db, "usuarios"));
+        const tbody = document.getElementById('users-table-body');
+        tbody.innerHTML = "";
+
+        querySnapshot.forEach((docu) => {
+          const u = docu.data();
+          tbody.innerHTML += `
+            <tr>
+              <td><strong>${u.nome || u.username || "Sem nome"}</strong></td>
+              <td>${u.email}</td>
+              <td>${(u.nivel === "adm1" || u.nivel === "adm2" || u.isAdmin) ? '<span class="badge-adm">ADMIN</span>' : 'Usuário'}</td>
+            </tr>
+          `;
+        });
+      } catch (error) {
+        console.error("Erro ao carregar painel:", error);
+      }
+    });
+  </script>
+</body>
+</html>
